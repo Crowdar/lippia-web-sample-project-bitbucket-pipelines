@@ -1,0 +1,76 @@
+image: crowdar/lippia:3.1.2.2
+pipelines:
+#################### Empieza Seccion manual del pipeline #####################
+  custom:
+    pipeline-manual: 
+      - variables:          
+          - name: TAG
+            default: "@Smoke"
+          - name: TESTTYPE
+            default: "parallel"          
+          - name: LANG
+            default: "@EN"
+          - name: BROWSERTYPE
+            default: "chromeHeadless"
+      - parallel:
+          steps:
+            - step: 
+                runs-on:
+                   - self.hosted
+                   - linux
+                name: Valor Variables
+                script:
+                  - |
+                     echo "'TAG= $TAG'"
+                     echo "'TESTTYPE= $TESTTYPE'"
+                     echo "'BROWSERTYPE= $BROWSERTYPE'"
+                     echo "'LANG= $LANG'"
+            - step:
+                runs-on:
+                   - self.hosted
+                   - linux
+                name: Test Lippia
+                image: crowdar/lippia:3.1.2.2
+                script: 
+                  - apt-get install -y zip
+                  - mvn clean test -P$TESTTYPE -P$BROWSERTYPE -Dcucumber.tags="--tags $TAG" || true
+                  - cd target && cd report
+                  - zip -r artifact.zip *
+                  - pipe: atlassian/bitbucket-upload-file:0.3.3
+                    variables:
+                      BITBUCKET_USERNAME: 'AlanBarani'
+                      BITBUCKET_APP_PASSWORD: 'ATBBqeXsnCu2TPJrk5X3VbhSS4bW8A5BF183'
+                      FILENAME: 'artifact.zip'
+                  
+###################### Empieza Seccion auto del pipeline ####################
+ 
+  default: 
+      - parallel:       
+          steps:
+            - step: 
+                runs-on:
+                   - self.hosted
+                   - linux
+                name: Valor Variables
+                script:
+                  - |
+                     echo "'BITBUCKET_TAG= $BITBUCKET_TAG'"
+                     echo "'BITBUCKET_TESTTYPE= $BITBUCKET_TESTTYPE'"
+                     echo "'BITBUCKET_BROWSERTYPE= $BITBUCKET_BROWSERTYPE'"
+                     echo "'BITBUCKET_LANG= $BITBUCKET_LANG'"
+            - step:
+                runs-on:
+                 - self.hosted
+                 - linux
+                name: Test Lippia
+                image: crowdar/lippia:3.1.2.2
+                script: 
+                   - apt-get install -y zip
+                   - mvn clean test -P$BITBUCKET_TESTTYPE -P$BITBUCKET_BROWSERTYPE -Dcucumber.tags="--tags $BITBUCKET_TAG" || true
+                   - cd target && cd report
+                   - zip -r artifact.zip *
+                   - pipe: atlassian/bitbucket-upload-file:0.3.3
+                     variables:
+                      BITBUCKET_USERNAME: 'AlanBarani'
+                      BITBUCKET_APP_PASSWORD: 'ATBBqeXsnCu2TPJrk5X3VbhSS4bW8A5BF183'
+                      FILENAME: 'artifact.zip'
