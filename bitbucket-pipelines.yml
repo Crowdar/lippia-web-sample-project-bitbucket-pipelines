@@ -50,9 +50,10 @@ pipelines:
       - parallel:       
           steps:
             - step: 
-                runs-on:
-                   - self.hosted
-                   - linux
+              #Las siguientes 3 lineas indican que el runner se correra de manera local
+              #  runs-on:
+              #     - self.hosted
+              #     - linux
                 name: Valor Variables
                 script:
                   - |
