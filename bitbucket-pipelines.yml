@@ -61,9 +61,10 @@ pipelines:
                      echo "'BITBUCKET_BROWSERTYPE= $BITBUCKET_BROWSERTYPE'"
                      echo "'BITBUCKET_LANG= $BITBUCKET_LANG'"
             - step:
-                runs-on:
-                 - self.hosted
-                 - linux
+              #Las siguientes 3 lineas indican que el runner se correra de manera local
+              #  runs-on:
+              #   - self.hosted
+              #   - linux
                 name: Test Lippia
                 image: crowdar/lippia:3.1.2.2
                 script: 
