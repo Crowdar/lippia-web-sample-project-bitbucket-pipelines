@@ -8,7 +8,7 @@ El proyecto incluye la imagen de Lippia con todas las herramientas necesarias pa
 
 ## Como se usa
 
-* Un nuevo commit en el repositorio a cualquier branch dispara el pipeline automaticamente, iniciando las pruebas pertinentes. Si se desea cambiar esto se puede modificar en la siguiente sección del documento:
+* Un nuevo commit en el repositorio a cualquier branch dispara el pipeline automaticamente, iniciando las pruebas pertinentes. Si se desea cambiar esto se puede modificar en la siguiente secciï¿½n del documento:
 
 ```
 
@@ -26,7 +26,7 @@ branches:    #En lugar de 'default' escribimos 'branches'
 
 
 - Para que el pipeline automatico funcione primero deben configurarse las siguientes variables de entorno en Repository settings --> Repository variables: 
-![env-repo](https://bitbucket.org/alanbarani/pipeline-sample-web/downloads/env-repo.png)
+![env-repo](https://gitlab.crowdaronline.com/lippia/products/samples/pipeline-automation/bitbucket/pipeline-sample-web/-/blob/main/docs/images/env-repo.png)
 - En el caso del pipeline manual estas se configuran en la siguiente seccion, o al disparar el pipeline:
 ```
   custom:
@@ -41,7 +41,7 @@ branches:    #En lugar de 'default' escribimos 'branches'
           - name: BROWSERTYPE
             default: "chromeHeadless"
 ```
-![manual](https://bitbucket.org/alanbarani/pipeline-sample-web/downloads/manual.png)
+![manual](https://gitlab.crowdaronline.com/lippia/products/samples/pipeline-automation/bitbucket/pipeline-sample-web/-/blob/main/docs/images/manual.png)
 - Los valores de dichas variables se encuentran en el archivo POM.xml
 
   * **TAG**: lleva el nombre de la prueba
